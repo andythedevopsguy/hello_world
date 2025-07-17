@@ -30,8 +30,9 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-java-app:latest
+      - name: Wait for 30 seconds
+        run: sleep 30
       - name: Verify Docker image pushed to Docker Hub
-        sleep: 10 # Wait for a few seconds to ensure the image is available
         run: |
           IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/my-java-app:latest
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
