@@ -27,11 +27,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hello_world:latest
 
       - name: Verify Docker image pushed to Docker Hub
         run: |
-          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest
+          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/hello_world:latest
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
           HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" -H "Authorization: JWT $TOKEN" https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/your-image-name/tags/latest/)
           if [ "$HTTP_STATUS" -ne 200 ]; then
